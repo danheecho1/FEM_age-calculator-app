@@ -1,95 +1,41 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+import Image from "next/image";
+import styles from "./page.module.css";
+import arrow from "../public/assets/images/icon-arrow.svg";
 
 export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+	return (
+		<div className={styles.container}>
+			<div className={styles.birthdayDiv}>
+				<div className={styles.birthdayDiv__monthDiv}>
+					<label htmlFor="month" className={styles.birthdayDiv__monthDiv__label}>MONTH</label>
+					<input type="text" name="month" id="month" className={styles.birthdayDiv__monthDiv__input}/>
+					<p className={styles.birthdayDiv__monthDiv__errorMessage}>Must be a valid month</p>
+				</div>
+				<div className={styles.birthdayDiv__dayDiv}>
+					<label htmlFor="" className={styles.birthdayDiv__dayDiv__label}>DAY</label>
+					<input type="text" className={styles.birthdayDiv__dayDiv__errorMessage}/>
+					<p className={styles.birthdayDiv__dayDiv__errorMessage}>Must be a valid day</p>
+				</div>
+				<div className={styles.birthdayDiv__yearDiv}>
+					<label htmlFor="" className={styles.birthdayDiv__yearDiv__label}>YEAR</label>
+					<input type="text" className={styles.birthdayDiv__yearDiv__errorMessage}/>
+					<p className={styles.birthdayDiv__yearDiv__errorMessage}>Must be a valid year</p>
+				</div>
+			</div>
+			<div className={styles.buttonDiv}>
+				<Image src={arrow} alt="Calculate button" className={styles.buttonDiv__image} />
+			</div>
+			<div className={styles.resultDiv}>
+				<p className={styles.resultDiv__years}>
+					<span className={styles.resultDiv__years__number}>--</span> years
+				</p>
+				<p className={styles.resultDiv__months}>
+					<span className={styles.resultDiv__months__number}>--</span> months
+				</p>
+				<p className={styles.resultDiv__days}>
+					<span className={styles.resultDiv__days__number}>--</span> days
+				</p>
+			</div>
+		</div>
+	);
 }
