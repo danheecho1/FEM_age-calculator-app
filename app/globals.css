@@ -3,13 +3,14 @@
     --clr-red: 0, 100%, 67%;
     --clr-white: 0, 0%, 100%;
     --clr-offWhite: 0, 0%, 94%;
-    --clr-lightGrey: 0, 0, 86%;
+    --clr-lightGrey: 0, 0%, 86%;
     --clr-smokeyGrey: 0, 1%, 44%;
-    --clr-offBlack: 0, 0, 8%;
+    --clr-offBlack: 0, 0%, 8%;
     
-    --fw-regularItalic: 400i;
+    /* regular and extraBold to be italicized */
+    --fw-regular: 400;
     --fw-bold: 700;
-    --fw-extraBoldItalic: 800i;
+    --fw-extraBold: 800;
 
     font-size: 32px;
 }
