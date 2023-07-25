@@ -49,21 +49,23 @@
   opacity: 0;
 }
 
-.buttonDiv {
+.button {
   background-color: hsl(var(--clr-purple));
   border-radius: 50%;
+  border: none;
   padding: 0.375em;
-  width: 63px;
-  height: 63px;
+  width: 64px;
+  height: 64px;
   position: relative;
-  bottom: 25px;
+  bottom: 32px;
   margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
-.buttonDiv__image {
+.button__image {
   transform: scale(0.55);
 }
 
