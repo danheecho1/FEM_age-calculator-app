@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
 import arrow from "../public/assets/images/icon-arrow.svg";
@@ -9,49 +9,73 @@ export default function Home() {
 	const yearsSpanRef = useRef<HTMLSpanElement>(null);
 	const monthsSpanRef = useRef<HTMLSpanElement>(null);
 	const daysSpanRef = useRef<HTMLSpanElement>(null);
+	const [isFuture, setIsFuture] = useState(false);
+	const [isInvalidDay, setIsInvalidDay] = useState(false);
+	const [isInvalidMonth, setIsInvalidMonth] = useState(false);
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		let form: HTMLFormElement = e.currentTarget;
 		let formData: FormData = new FormData(form);
+		let birthYear: number = Number(formData.get("birthYear"));
+		let birthMonth: number = Number(formData.get("birthMonth"));
+		let birthDay: number = Number(formData.get("birthDay"));
+		let birthDate: Date = new Date(birthYear, birthMonth - 1, birthDay);
+		console.log("my birthday is", birthDate);
 		let today: Date = new Date();
 		let currentYear: number = today.getFullYear();
 		let currentMonth: number = today.getMonth() + 1;
 		let currentDay: number = today.getDate();
-		let birthYear: number = Number(formData.get("birthYear")) ?? 0;
-		let birthMonth: number = Number(formData.get("birthMonth")) ?? 0;
-		let birthDay: number = Number(formData.get("birthDay")) ?? 0;
 
-		let ageDay =
-			currentDay > birthDay
-				? currentDay - birthDay
-				: currentDay + 30 - birthDay;
-		let ageMonth =
-			currentDay > birthDay
-				? currentMonth > birthMonth
+		// Checking if the numbers put in days and months are invalid
+		setIsInvalidMonth(birthMonth > 12 || birthMonth == 0);
+		setIsInvalidDay(birthDay > 31 || birthDay == 0);
+
+		// Checking if the input date is in the future
+		if (!isInvalidMonth && !isInvalidDay) {
+			setIsFuture(
+				birthYear > currentYear ||
+					(birthYear === currentYear && birthMonth > currentMonth) ||
+					(birthYear === currentYear &&
+						birthMonth === currentMonth &&
+						birthDay > currentDay)
+			);
+		}
+
+		if (!isFuture) {
+			let ageDay =
+				currentDay >= birthDay
+					? currentDay - birthDay
+					: currentDay + 30 - birthDay;
+			let ageMonth =
+				currentDay >= birthDay
+					? currentMonth >= birthMonth
+						? currentMonth - birthMonth
+						: currentMonth + 12 - birthMonth
+					: currentMonth - 1 >= birthMonth
 					? currentMonth - birthMonth
-					: currentMonth + 12 - birthMonth
-				: currentMonth - 1 - birthMonth;
-		let ageYear =
-			currentMonth < birthMonth
-				? currentYear - birthYear - 1
-				: currentYear - birthYear;
+					: currentMonth - 1 + 12 - birthMonth;
+			let ageYear =
+				currentMonth < birthMonth
+					? currentYear - birthYear - 1
+					: currentYear - birthYear;
 
-		console.log(
-			"I'm",
-			ageYear,
-			"years",
-			ageMonth,
-			"months, and",
-			ageDay,
-			"days old."
-		);
-		if (yearsSpanRef.current)
-			yearsSpanRef.current.textContent = ageYear.toString();
-		if (monthsSpanRef.current)
-			monthsSpanRef.current.textContent = ageMonth.toString();
-		if (daysSpanRef.current)
-			daysSpanRef.current.textContent = ageDay.toString();
+			console.log(
+				"I'm",
+				ageYear,
+				"years",
+				ageMonth,
+				"months, and",
+				ageDay,
+				"days old."
+			);
+			if (yearsSpanRef.current)
+				yearsSpanRef.current.textContent = ageYear.toString();
+			if (monthsSpanRef.current)
+				monthsSpanRef.current.textContent = ageMonth.toString();
+			if (daysSpanRef.current)
+				daysSpanRef.current.textContent = ageDay.toString();
+		}
 	};
 
 	return (
@@ -63,11 +87,16 @@ export default function Home() {
 				<div className={styles.birthdayDiv__monthDiv}>
 					<label
 						htmlFor="birthMonth"
-						className={styles.birthdayDiv__monthDiv__label}>
+						className={
+							isFuture
+								? `${styles.birthdayDiv__monthDiv__label} ${styles.error__label}`
+								: styles.birthdayDiv__monthDiv__label
+						}>
 						MONTH
 					</label>
 					<input
-						type="text"
+						required
+						type="number"
 						name="birthMonth"
 						id="birthMonth"
 						className={styles.birthdayDiv__monthDiv__input}
@@ -79,11 +108,16 @@ export default function Home() {
 				<div className={styles.birthdayDiv__dayDiv}>
 					<label
 						htmlFor="birthDay"
-						className={styles.birthdayDiv__dayDiv__label}>
+						className={
+							isFuture
+								? `${styles.birthdayDiv__dayDiv__label} ${styles.error__label}`
+								: styles.birthdayDiv__dayDiv__label
+						}>
 						DAY
 					</label>
 					<input
-						type="text"
+						required
+						type="number"
 						name="birthDay"
 						id="birthDay"
 						className={styles.birthdayDiv__dayDiv__input}
@@ -95,11 +129,16 @@ export default function Home() {
 				<div className={styles.birthdayDiv__yearDiv}>
 					<label
 						htmlFor="birthYear"
-						className={styles.birthdayDiv__yearDiv__label}>
+						className={
+							isFuture
+								? `${styles.birthdayDiv__yearDiv__label} ${styles.error__label}`
+								: styles.birthdayDiv__yearDiv__label
+						}>
 						YEAR
 					</label>
 					<input
-						type="text"
+						required
+						type="number"
 						name="birthYear"
 						id="birthYear"
 						className={styles.birthdayDiv__yearDiv__input}

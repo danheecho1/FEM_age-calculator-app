@@ -2,15 +2,15 @@
 	background-color: hsl(var(--clr-white));
 	border-radius: 0.75em 0.75em 3.25em 0.75em;
 	width: 345px;
-  padding: 1em 0.75em 1.625em;
+	padding: 1em 0.75em 1.625em;
 }
 
 .birthdayDiv {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-column-gap: 0.5em;
-  border-bottom: 2px solid hsla(var(--clr-lightGrey), 0.5);
-  padding-bottom: 1.125em;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-column-gap: 0.5em;
+	border-bottom: 2px solid hsla(var(--clr-lightGrey), 0.5);
+	padding-bottom: 1.125em;
 }
 
 .birthdayDiv__monthDiv__label,
@@ -22,72 +22,75 @@
 	color: hsl(var(--clr-smokeyGrey));
 }
 
+.error__label {
+	color: hsl(var(--clr-red));
+}
+
 .birthdayDiv__monthDiv__input,
 .birthdayDiv__dayDiv__input,
 .birthdayDiv__yearDiv__input {
-  width: 100%;
-  border: 1px solid hsl(var(--clr-lightGrey));
-  border-radius: 0.375em;
-  font-size: 0.625rem;
-  font-weight: var(--fw-extraBold);
-  padding: 0.5em;
+	width: 100%;
+	border: 1px solid hsl(var(--clr-lightGrey));
+	border-radius: 0.375em;
+	font-size: 0.625rem;
+	font-weight: var(--fw-extraBold);
+	padding: 0.5em;
 }
 
+.error_input {
+	border: 1px solid hsl(var(--clr-red));
+}
 
 .birthdayDiv__monthDiv__input:focus,
 .birthdayDiv__dayDiv__input:focus,
 .birthdayDiv__yearDiv__input:focus {
-  outline: 1px solid hsl(var(--clr-smokeyGrey));
+	outline: 1px solid hsl(var(--clr-smokeyGrey));
+}
+
+.error__fontColor {
+	color: hsl(var(--clr-red));
 }
 
 .birthdayDiv__monthDiv__errorMessage,
 .birthdayDiv__dayDiv__errorMessage,
 .birthdayDiv__yearDiv__errorMessage {
-  font-size: 0.275rem;
-  font-weight: var(--fw-regular);
-  font-style: italic;
-  opacity: 0;
+	font-size: 0.275rem;
+	font-weight: var(--fw-regular);
+	font-style: italic;
+	opacity: 0;
 }
 
 .button {
-  background-color: hsl(var(--clr-purple));
-  border-radius: 50%;
-  border: none;
-  padding: 0.375em;
-  width: 64px;
-  height: 64px;
-  position: relative;
-  bottom: 32px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
+	background-color: hsl(var(--clr-purple));
+	border-radius: 50%;
+	border: none;
+	padding: 0.375em;
+	width: 64px;
+	height: 64px;
+	position: relative;
+	bottom: 32px;
+	margin: 0 auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
 }
 
 .button__image {
-  transform: scale(0.55);
+	transform: scale(0.55);
 }
 
-.resultDiv__years, 
-.resultDiv__months, 
+.resultDiv__years,
+.resultDiv__months,
 .resultDiv__days {
-  font-size: 1.625rem;
-  font-style: italic;
-  font-weight: var(--fw-extraBold);
-  line-height: 1.125em;
+	font-size: 1.625rem;
+	font-style: italic;
+	font-weight: var(--fw-extraBold);
+	line-height: 1.125em;
 }
 
-.resultDiv__years__number, 
-.resultDiv__months__number, 
+.resultDiv__years__number,
+.resultDiv__months__number,
 .resultDiv__days__number {
-  color: hsl(var(--clr-purple));
-}
-
-.error__fontColor {
-  color: hsl(var(--clr-red));
-}
-
-.error__borderColor {
-  border-color: hsl(var(--clr-red));
+	color: hsl(var(--clr-purple));
 }
