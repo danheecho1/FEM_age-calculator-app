@@ -9,9 +9,35 @@ export default function Home() {
 	const yearsSpanRef = useRef<HTMLSpanElement>(null);
 	const monthsSpanRef = useRef<HTMLSpanElement>(null);
 	const daysSpanRef = useRef<HTMLSpanElement>(null);
+
 	const [isFuture, setIsFuture] = useState(false);
-	const [isInvalidDay, setIsInvalidDay] = useState(false);
-	const [isInvalidMonth, setIsInvalidMonth] = useState(false);
+
+	const [birthday, setBirthday] = useState(new Date());
+
+	const today: Date = new Date();
+	const currentYear: number = today.getFullYear();
+	const currentMonth: number = today.getMonth() + 1;
+	const currentDay: number = today.getDate();
+
+	const validateMonth = (month: number) => {
+		return month < 13 && month > 0;
+	};
+
+	const validateDay = (day: number) => {
+		return day < 32 && day > 0;
+	};
+
+	const validateYear = (year: number) => {
+		return year >= 0;
+	};
+
+	const validateTense = (month: number, day: number, year: number) => {
+		return year < currentYear ||
+			(year === currentYear && month < currentMonth) ||
+			(year === currentYear &&
+				month === currentMonth &&
+				day <= currentDay);
+	};
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -20,63 +46,123 @@ export default function Home() {
 		let birthYear: number = Number(formData.get("birthYear"));
 		let birthMonth: number = Number(formData.get("birthMonth"));
 		let birthDay: number = Number(formData.get("birthDay"));
-		let birthDate: Date = new Date(birthYear, birthMonth - 1, birthDay);
-		console.log("my birthday is", birthDate);
-		let today: Date = new Date();
-		let currentYear: number = today.getFullYear();
-		let currentMonth: number = today.getMonth() + 1;
-		let currentDay: number = today.getDate();
-
-		// Checking if the numbers put in days and months are invalid
-		setIsInvalidMonth(birthMonth > 12 || birthMonth == 0);
-		setIsInvalidDay(birthDay > 31 || birthDay == 0);
-
-		// Checking if the input date is in the future
-		if (!isInvalidMonth && !isInvalidDay) {
-			setIsFuture(
-				birthYear > currentYear ||
-					(birthYear === currentYear && birthMonth > currentMonth) ||
-					(birthYear === currentYear &&
-						birthMonth === currentMonth &&
-						birthDay > currentDay)
-			);
-		}
-
-		if (!isFuture) {
-			let ageDay =
-				currentDay >= birthDay
-					? currentDay - birthDay
-					: currentDay + 30 - birthDay;
-			let ageMonth =
-				currentDay >= birthDay
-					? currentMonth >= birthMonth
-						? currentMonth - birthMonth
-						: currentMonth + 12 - birthMonth
-					: currentMonth - 1 >= birthMonth
-					? currentMonth - birthMonth
-					: currentMonth - 1 + 12 - birthMonth;
-			let ageYear =
-				currentMonth < birthMonth
-					? currentYear - birthYear - 1
-					: currentYear - birthYear;
-
-			console.log(
-				"I'm",
-				ageYear,
-				"years",
-				ageMonth,
-				"months, and",
-				ageDay,
-				"days old."
-			);
-			if (yearsSpanRef.current)
-				yearsSpanRef.current.textContent = ageYear.toString();
-			if (monthsSpanRef.current)
-				monthsSpanRef.current.textContent = ageMonth.toString();
-			if (daysSpanRef.current)
-				daysSpanRef.current.textContent = ageDay.toString();
+		if (validateMonth(birthMonth) && validateDay(birthDay) && validateYear(birthYear) && validateTense(birthMonth, birthDay, birthYear)) {
+			console.log("pass");
+			setBirthday(new Date(birthYear, birthMonth - 1, birthDay));
+		} else {
+			console.log("no pass")
 		}
 	};
+
+	const handleError = () => {
+		const labels = document.querySelectorAll("label");
+		const inputs = document.querySelectorAll("input");
+		const yearLabel = document.querySelector(
+			".birthdayDiv__yearDiv__label"
+		);
+		const monthLabel = document.querySelector(
+			".birthdayDiv__monthDiv__label"
+		);
+		const dayLabel = document.querySelector(".birthdayDiv__dayDiv__label");
+		const yearInput = document.querySelector(
+			".birthdayDiv__yearDiv__input"
+		);
+		const monthInput = document.querySelector(
+			".birthdayDiv__monthDiv__input"
+		);
+		const dayInput = document.querySelector(".birthdayDiv__dayDiv__input");
+		const yearMessage = document.querySelector(
+			".birthdayDiv__yearDiv__errorMessage"
+		);
+		const monthMessage = document.querySelector(
+			".birthdayDiv__monthDiv__errorMessage"
+		);
+		const dayMessage = document.querySelector(
+			".birthdayDiv__dayDiv__errorMessage"
+		);
+		const futureMessage = document.querySelector;
+
+		if (isFuture) {
+			inputs.forEach((input) => {
+				input.classList.add(styles["error"]);
+			});
+			labels.forEach((label) => {
+				label.classList.add(styles["error__label"]);
+			});
+		}
+	};
+
+	useEffect(() => {
+		const labels = document.querySelectorAll("label");
+		const inputs = document.querySelectorAll("input");
+		if (isFuture) {
+			inputs.forEach((input) => {
+				input.classList.add(styles["error__input"]);
+			});
+			labels.forEach((label) => {
+				label.classList.add(styles["error__label"]);
+			});
+		}
+	}, [birthday]);
+
+	// const handleUpdatedStatus = () => {
+	// const errorMessages = document.querySelectorAll(
+	// 	"[class*=errorMessage]"
+	// );
+	// 	errorMessages.forEach((message) => {
+	// 		message.classList.add(styles["display"]);
+	// 	});
+	// };
+
+	// const calculateAge = () => {
+	// 	if (!isFuture) {
+	// 		let ageDay =
+	// 			currentDay >= birthDay
+	// 				? currentDay - birthDay
+	// 				: currentDay + 30 - birthDay;
+	// 		let ageMonth =
+	// 			currentDay >= birthDay
+	// 				? currentMonth >= birthMonth
+	// 					? currentMonth - birthMonth
+	// 					: currentMonth + 12 - birthMonth
+	// 				: currentMonth - 1 >= birthMonth
+	// 				? currentMonth - birthMonth
+	// 				: currentMonth - 1 + 12 - birthMonth;
+	// 		let ageYear =
+	// 			currentMonth < birthMonth
+	// 				? currentYear - birthYear - 1
+	// 				: currentYear - birthYear;
+
+	// 		console.log(
+	// 			"I'm",
+	// 			ageYear,
+	// 			"years",
+	// 			ageMonth,
+	// 			"months, and",
+	// 			ageDay,
+	// 			"days old."
+	// 		);
+	// 		if (yearsSpanRef.current)
+	// 			yearsSpanRef.current.textContent = ageYear.toString();
+	// 		if (monthsSpanRef.current)
+	// 			monthsSpanRef.current.textContent = ageMonth.toString();
+	// 		if (daysSpanRef.current)
+	// 			daysSpanRef.current.textContent = ageDay.toString();
+	// 	}
+	// };
+
+	// // Indicate invalid inputs
+	// useEffect(() => {
+	// 	if (isFuture || isInvalidDay || isInvalidMonth) {
+	// 		handleUpdatedStatus();
+	// 	}
+	// }, [isFuture, isInvalidDay, isInvalidMonth]);
+
+	// // Calculate and display age
+	// useEffect(() => {
+	// 	if (!isFuture) {
+	// 	}
+	// });
 
 	return (
 		<div className={styles.container}>
@@ -87,11 +173,7 @@ export default function Home() {
 				<div className={styles.birthdayDiv__monthDiv}>
 					<label
 						htmlFor="birthMonth"
-						className={
-							isFuture
-								? `${styles.birthdayDiv__monthDiv__label} ${styles.error__label}`
-								: styles.birthdayDiv__monthDiv__label
-						}>
+						className={styles.birthdayDiv__monthDiv__label}>
 						MONTH
 					</label>
 					<input
@@ -108,11 +190,7 @@ export default function Home() {
 				<div className={styles.birthdayDiv__dayDiv}>
 					<label
 						htmlFor="birthDay"
-						className={
-							isFuture
-								? `${styles.birthdayDiv__dayDiv__label} ${styles.error__label}`
-								: styles.birthdayDiv__dayDiv__label
-						}>
+						className={styles.birthdayDiv__dayDiv__label}>
 						DAY
 					</label>
 					<input
@@ -129,11 +207,7 @@ export default function Home() {
 				<div className={styles.birthdayDiv__yearDiv}>
 					<label
 						htmlFor="birthYear"
-						className={
-							isFuture
-								? `${styles.birthdayDiv__yearDiv__label} ${styles.error__label}`
-								: styles.birthdayDiv__yearDiv__label
-						}>
+						className={styles.birthdayDiv__yearDiv__label}>
 						YEAR
 					</label>
 					<input

@@ -37,7 +37,7 @@
 	padding: 0.5em;
 }
 
-.error_input {
+.error__input {
 	border: 1px solid hsl(var(--clr-red));
 }
 
@@ -57,7 +57,12 @@
 	font-size: 0.275rem;
 	font-weight: var(--fw-regular);
 	font-style: italic;
+	color: hsl(var(--clr-red));
 	opacity: 0;
+}
+
+.display {
+	opacity: 1;
 }
 
 .button {
