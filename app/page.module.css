@@ -47,10 +47,6 @@
 	outline: 1px solid hsl(var(--clr-smokeyGrey));
 }
 
-.error__fontColor {
-	color: hsl(var(--clr-red));
-}
-
 .birthdayDiv__monthDiv__errorMessage,
 .birthdayDiv__dayDiv__errorMessage,
 .birthdayDiv__yearDiv__errorMessage {
