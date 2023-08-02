@@ -24,26 +24,31 @@ export default function Home() {
 
 	const futureMessageRef = useRef<HTMLParagraphElement>(null);
 
-	const [birthday, setBirthday] = useState(new Date());
+	type DateOrNull = Date | null;
+	const [birthday, setBirthday] = useState<DateOrNull>(null);
 
 	const today: Date = new Date();
 	const currentYear: number = today.getFullYear();
 	const currentMonth: number = today.getMonth() + 1;
 	const currentDay: number = today.getDate();
 
-	const validateMonth = (month: number) => {
+	const validateMonth = (month: number): boolean => {
 		return month < 13 && month > 0;
 	};
 
-	const validateDay = (day: number) => {
+	const validateDay = (day: number): boolean => {
 		return day < 32 && day > 0;
 	};
 
-	const validateYear = (year: number) => {
+	const validateYear = (year: number): boolean => {
 		return year >= 0;
 	};
 
-	const validateTense = (month: number, day: number, year: number) => {
+	const validateTense = (
+		month: number,
+		day: number,
+		year: number
+	): boolean => {
 		return (
 			year < currentYear ||
 			(year === currentYear && month < currentMonth) ||
@@ -75,7 +80,13 @@ export default function Home() {
 		) {
 			console.log("pass");
 			setBirthday(new Date(birthYear, birthMonth - 1, birthDay));
+		} else {
+			console.log("no pass");
+		}
+	};
 
+	useEffect(() => {
+		if (birthday) {
 			let ageDay =
 				currentDay >= birthday.getDate()
 					? currentDay - birthday.getDate()
@@ -92,26 +103,14 @@ export default function Home() {
 				currentMonth < birthday.getMonth()
 					? currentYear - birthday.getFullYear() - 1
 					: currentYear - birthday.getFullYear();
-			console.log(
-				"I'm",
-				ageYear,
-				"years",
-				ageMonth,
-				"months, and",
-				ageDay,
-				"days old."
-			);
 			if (yearsSpanRef.current)
 				yearsSpanRef.current.textContent = ageYear.toString();
 			if (monthsSpanRef.current)
 				monthsSpanRef.current.textContent = ageMonth.toString();
 			if (daysSpanRef.current)
 				daysSpanRef.current.textContent = ageDay.toString();
-
-		} else {
-			console.log("no pass");
 		}
-	};
+	});
 
 	const handleError = (
 		day: boolean,
@@ -159,6 +158,8 @@ export default function Home() {
 		yearMessageRef.current?.classList.remove(styles["display"]);
 		futureMessageRef.current?.classList.remove(styles["display"]);
 	};
+
+	console.log(today);
 
 	return (
 		<div className={styles.container}>
