@@ -48,13 +48,21 @@
 }
 
 .birthdayDiv__monthDiv__errorMessage,
-.birthdayDiv__dayDiv__errorMessage,
+.birthdayDiv__dayDiv__errorMessage {
+	font-size: 0.275rem;
+	font-weight: var(--fw-regular);
+	font-style: italic;
+	color: hsl(var(--clr-red));
+	margin-top: 1em;
+	opacity: 0;
+}
+
 .birthdayDiv__yearDiv__errorMessage {
 	font-size: 0.275rem;
 	font-weight: var(--fw-regular);
 	font-style: italic;
 	color: hsl(var(--clr-red));
-	opacity: 0;
+	margin-top: 1em;
 }
 
 .display {

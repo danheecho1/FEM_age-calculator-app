@@ -22,8 +22,6 @@ export default function Home() {
 	const yearInputRef = useRef<HTMLInputElement>(null);
 	const yearMessageRef = useRef<HTMLParagraphElement>(null);
 
-	const futureMessageRef = useRef<HTMLParagraphElement>(null);
-
 	type DateOrNull = Date | null;
 	const [birthday, setBirthday] = useState<DateOrNull>(null);
 
@@ -93,14 +91,14 @@ export default function Home() {
 					: currentDay + 30 - birthday.getDate();
 			let ageMonth =
 				currentDay >= birthday.getDate()
-					? currentMonth >= birthday.getMonth()
-						? currentMonth - birthday.getMonth()
-						: currentMonth + 12 - birthday.getMonth()
-					: currentMonth - 1 >= birthday.getMonth()
-					? currentMonth - birthday.getMonth()
-					: currentMonth - 1 + 12 - birthday.getMonth();
+					? currentMonth >= birthday.getMonth() + 1
+						? currentMonth - (birthday.getMonth() + 1)
+						: currentMonth + 12 - (birthday.getMonth() + 1)
+					: currentMonth - 1 >= birthday.getMonth() + 1
+					? currentMonth - (birthday.getMonth() + 1)
+					: currentMonth - 1 + 12 - (birthday.getMonth() + 1);
 			let ageYear =
-				currentMonth < birthday.getMonth()
+				currentMonth < birthday.getMonth() + 1
 					? currentYear - birthday.getFullYear() - 1
 					: currentYear - birthday.getFullYear();
 			if (yearsSpanRef.current)
@@ -112,6 +110,12 @@ export default function Home() {
 		}
 	});
 
+	const resetAge = () => {
+		monthsSpanRef.current!.innerHTML = "--";
+		daysSpanRef.current!.innerHTML = "--";
+		yearsSpanRef.current!.innerHTML = "--";
+	};
+
 	const handleError = (
 		day: boolean,
 		month: boolean,
@@ -122,27 +126,32 @@ export default function Home() {
 			monthLabelRef.current?.classList.add(styles["error__label"]);
 			monthInputRef.current?.classList.add(styles["error__input"]);
 			monthMessageRef.current?.classList.add(styles["display"]);
+			resetAge();
 		}
 		if (!day) {
 			dayLabelRef.current?.classList.add(styles["error__label"]);
 			dayInputRef.current?.classList.add(styles["error__input"]);
 			dayMessageRef.current?.classList.add(styles["display"]);
+			resetAge();
+
 		}
 		if (!year) {
 			yearLabelRef.current?.classList.add(styles["error__label"]);
 			yearInputRef.current?.classList.add(styles["error__input"]);
 			yearMessageRef.current?.classList.add(styles["display"]);
+			yearMessageRef.current!.innerHTML = "Must be a valid year";
+			resetAge();
+
 		}
-		if (month && day && year) {
-			if (!tense) {
-				monthLabelRef.current?.classList.add(styles["error__label"]);
-				monthInputRef.current?.classList.add(styles["error__input"]);
-				dayLabelRef.current?.classList.add(styles["error__label"]);
-				dayInputRef.current?.classList.add(styles["error__input"]);
-				yearLabelRef.current?.classList.add(styles["error__label"]);
-				yearInputRef.current?.classList.add(styles["error__input"]);
-				futureMessageRef.current?.classList.add(styles["display"]);
-			}
+		if (!tense) {
+			monthLabelRef.current?.classList.add(styles["error__label"]);
+			monthInputRef.current?.classList.add(styles["error__input"]);
+			dayLabelRef.current?.classList.add(styles["error__label"]);
+			dayInputRef.current?.classList.add(styles["error__input"]);
+			yearLabelRef.current?.classList.add(styles["error__label"]);
+			yearInputRef.current?.classList.add(styles["error__input"]);
+			yearMessageRef.current!.innerHTML = "Must not be in the future";
+			resetAge();
 		}
 	};
 
@@ -155,11 +164,8 @@ export default function Home() {
 		dayMessageRef.current?.classList.remove(styles["display"]);
 		yearLabelRef.current?.classList.remove(styles["error__label"]);
 		yearInputRef.current?.classList.remove(styles["error__input"]);
-		yearMessageRef.current?.classList.remove(styles["display"]);
-		futureMessageRef.current?.classList.remove(styles["display"]);
+		yearMessageRef.current!.innerHTML = "";
 	};
-
-	console.log(today);
 
 	return (
 		<div className={styles.container}>
@@ -226,14 +232,9 @@ export default function Home() {
 					/>
 					<p
 						ref={yearMessageRef}
-						className={styles.birthdayDiv__yearDiv__errorMessage}>
-						Must be a valid year
-					</p>
-					<p
-						ref={futureMessageRef}
-						className={styles.birthdayDiv__yearDiv__errorMessage}>
-						Must not be in the future
-					</p>
+						className={
+							styles.birthdayDiv__yearDiv__errorMessage
+						}></p>
 				</div>
 			</form>
 			<button className={styles.button} form="birthday">
