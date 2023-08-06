@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
 import arrow from "../public/assets/images/icon-arrow.svg";
-import Attribution from "@/components/attribution";
+import Attribution from "@/components/Attribution";
 
 export default function Home() {
 	const yearsSpanRef = useRef<HTMLSpanElement>(null);
