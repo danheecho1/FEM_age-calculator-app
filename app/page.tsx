@@ -112,9 +112,9 @@ export default function Home() {
 	});
 
 	const resetAge = () => {
-		monthsSpanRef.current!.innerHTML = "--";
-		daysSpanRef.current!.innerHTML = "--";
-		yearsSpanRef.current!.innerHTML = "--";
+		monthsSpanRef.current!.innerHTML = "- -";
+		daysSpanRef.current!.innerHTML = "- -";
+		yearsSpanRef.current!.innerHTML = "- -";
 	};
 
 	const handleError = (
