@@ -13,6 +13,14 @@
 	padding-bottom: 1.125em;
 }
 
+.birthdayDiv__dayDiv,
+.birthdayDiv__monthDiv,
+.birthdayDiv__yearDiv {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25em;
+}
+
 .birthdayDiv__monthDiv__label,
 .birthdayDiv__dayDiv__label,
 .birthdayDiv__yearDiv__label {
@@ -34,7 +42,17 @@
 	border-radius: 0.375em;
 	font-size: 0.625rem;
 	font-weight: var(--fw-extraBold);
-	padding: 0.5em;
+	padding: 0.5em 0.625em;
+}
+
+.birthdayDiv__monthDiv__input::-webkit-outer-spin-button,
+.birthdayDiv__monthDiv__input::-webkit-inner-spin-button,
+.birthdayDiv__dayDiv__input::-webkit-outer-spin-button,
+.birthdayDiv__dayDiv__input::-webkit-inner-spin-button,
+.birthdayDiv__yearDiv__input::-webkit-outer-spin-button,
+.birthdayDiv__yearDiv__input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
 }
 
 .error__input {
@@ -53,7 +71,6 @@
 	font-weight: var(--fw-regular);
 	font-style: italic;
 	color: hsl(var(--clr-red));
-	margin-top: 1em;
 	opacity: 0;
 }
 
@@ -62,7 +79,6 @@
 	font-weight: var(--fw-regular);
 	font-style: italic;
 	color: hsl(var(--clr-red));
-	margin-top: 1em;
 }
 
 .display {
@@ -102,4 +118,41 @@
 .resultDiv__months__number,
 .resultDiv__days__number {
 	color: hsl(var(--clr-purple));
+}
+
+@media screen and (min-width: 1440px) {
+	.container {
+		width: 840px;
+		padding: 1.25em;
+		border-bottom-right-radius: 5.25em;
+	}
+	.birthdayDiv {
+		grid-template-columns: 1fr 1fr 1fr 1fr;
+		grid-gap: 0 0.75em;
+	}
+	.birthdayDiv__monthDiv__label,
+	.birthdayDiv__dayDiv__label,
+	.birthdayDiv__yearDiv__label {
+		font-size: 0.45rem;
+	}
+	.birthdayDiv__monthDiv__input,
+	.birthdayDiv__dayDiv__input,
+	.birthdayDiv__yearDiv__input {
+		font-size: 1rem;
+		padding: 0.375em 0.625em;
+	}
+	.button {
+		width: 80px;
+		height: 80px;
+		bottom: 40px;
+		left: 345px;
+	}
+	.button__image {
+		transform: scale(0.875);
+	}
+	.resultDiv__years, 
+	.resultDiv__months, 
+	.resultDiv__days {
+		font-size: 3.25rem;
+	}
 }

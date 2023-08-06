@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
 import arrow from "../public/assets/images/icon-arrow.svg";
+import Attribution from "@/components/attribution";
 
 export default function Home() {
 	const yearsSpanRef = useRef<HTMLSpanElement>(null);
@@ -133,7 +134,6 @@ export default function Home() {
 			dayInputRef.current?.classList.add(styles["error__input"]);
 			dayMessageRef.current?.classList.add(styles["display"]);
 			resetAge();
-
 		}
 		if (!year) {
 			yearLabelRef.current?.classList.add(styles["error__label"]);
@@ -141,7 +141,6 @@ export default function Home() {
 			yearMessageRef.current?.classList.add(styles["display"]);
 			yearMessageRef.current!.innerHTML = "Must be a valid year";
 			resetAge();
-
 		}
 		if (!tense) {
 			monthLabelRef.current?.classList.add(styles["error__label"]);
@@ -168,108 +167,121 @@ export default function Home() {
 	};
 
 	return (
-		<div className={styles.container}>
-			<form
-				className={styles.birthdayDiv}
-				id="birthday"
-				onSubmit={handleSubmit}>
-				<div className={styles.birthdayDiv__monthDiv}>
-					<label
-						ref={monthLabelRef}
-						htmlFor="birthMonth"
-						className={styles.birthdayDiv__monthDiv__label}>
-						MONTH
-					</label>
-					<input
-						ref={monthInputRef}
-						required
-						type="number"
-						name="birthMonth"
-						id="birthMonth"
-						className={styles.birthdayDiv__monthDiv__input}
+		<>
+			<div className={styles.container}>
+				<form
+					className={styles.birthdayDiv}
+					id="birthday"
+					onSubmit={handleSubmit}>
+					<div className={styles.birthdayDiv__monthDiv}>
+						<label
+							ref={monthLabelRef}
+							htmlFor="birthMonth"
+							className={styles.birthdayDiv__monthDiv__label}>
+							MONTH
+						</label>
+						<input
+							ref={monthInputRef}
+							required
+							type="number"
+							name="birthMonth"
+							id="birthMonth"
+							min="1"
+							className={styles.birthdayDiv__monthDiv__input}
+							placeholder="MM"
+						/>
+						<p
+							ref={monthMessageRef}
+							className={
+								styles.birthdayDiv__monthDiv__errorMessage
+							}>
+							Must be a valid month
+						</p>
+					</div>
+					<div className={styles.birthdayDiv__dayDiv}>
+						<label
+							ref={dayLabelRef}
+							htmlFor="birthDay"
+							className={styles.birthdayDiv__dayDiv__label}>
+							DAY
+						</label>
+						<input
+							ref={dayInputRef}
+							required
+							type="number"
+							name="birthDay"
+							id="birthDay"
+							min="1"
+							className={styles.birthdayDiv__dayDiv__input}
+							placeholder="DD"
+						/>
+						<p
+							ref={dayMessageRef}
+							className={
+								styles.birthdayDiv__dayDiv__errorMessage
+							}>
+							Must be a valid day
+						</p>
+					</div>
+					<div className={styles.birthdayDiv__yearDiv}>
+						<label
+							ref={yearLabelRef}
+							htmlFor="birthYear"
+							className={styles.birthdayDiv__yearDiv__label}>
+							YEAR
+						</label>
+						<input
+							ref={yearInputRef}
+							required
+							type="number"
+							name="birthYear"
+							id="birthYear"
+							min="1400"
+							className={styles.birthdayDiv__yearDiv__input}
+							placeholder="YYYY"
+						/>
+						<p
+							ref={yearMessageRef}
+							className={
+								styles.birthdayDiv__yearDiv__errorMessage
+							}></p>
+					</div>
+				</form>
+				<button className={styles.button} form="birthday">
+					<Image
+						src={arrow}
+						alt="Calculate button"
+						className={styles.button__image}
 					/>
-					<p
-						ref={monthMessageRef}
-						className={styles.birthdayDiv__monthDiv__errorMessage}>
-						Must be a valid month
+				</button>
+				<div className={styles.resultDiv}>
+					<p className={styles.resultDiv__years}>
+						<span
+							ref={yearsSpanRef}
+							className={styles.resultDiv__years__number}>
+							- -
+						</span>{" "}
+						years
+					</p>
+					<p className={styles.resultDiv__months}>
+						<span
+							ref={monthsSpanRef}
+							className={styles.resultDiv__months__number}>
+							- -
+						</span>{" "}
+						months
+					</p>
+					<p className={styles.resultDiv__days}>
+						<span
+							ref={daysSpanRef}
+							className={styles.resultDiv__days__number}>
+							- -
+						</span>{" "}
+						days
 					</p>
 				</div>
-				<div className={styles.birthdayDiv__dayDiv}>
-					<label
-						ref={dayLabelRef}
-						htmlFor="birthDay"
-						className={styles.birthdayDiv__dayDiv__label}>
-						DAY
-					</label>
-					<input
-						ref={dayInputRef}
-						required
-						type="number"
-						name="birthDay"
-						id="birthDay"
-						className={styles.birthdayDiv__dayDiv__input}
-					/>
-					<p
-						ref={dayMessageRef}
-						className={styles.birthdayDiv__dayDiv__errorMessage}>
-						Must be a valid day
-					</p>
-				</div>
-				<div className={styles.birthdayDiv__yearDiv}>
-					<label
-						ref={yearLabelRef}
-						htmlFor="birthYear"
-						className={styles.birthdayDiv__yearDiv__label}>
-						YEAR
-					</label>
-					<input
-						ref={yearInputRef}
-						required
-						type="number"
-						name="birthYear"
-						id="birthYear"
-						className={styles.birthdayDiv__yearDiv__input}
-					/>
-					<p
-						ref={yearMessageRef}
-						className={
-							styles.birthdayDiv__yearDiv__errorMessage
-						}></p>
-				</div>
-			</form>
-			<button className={styles.button} form="birthday">
-				<Image
-					src={arrow}
-					alt="Calculate button"
-					className={styles.button__image}
-				/>
-			</button>
-			<div className={styles.resultDiv}>
-				<p className={styles.resultDiv__years}>
-					<span
-						ref={yearsSpanRef}
-						className={styles.resultDiv__years__number}>
-						--
-					</span>{" "}
-					years
-				</p>
-				<p className={styles.resultDiv__months}>
-					<span
-						ref={monthsSpanRef}
-						className={styles.resultDiv__months__number}>
-						--
-					</span>{" "}
-					months
-				</p>
-				<p className={styles.resultDiv__days}>
-					<span
-						ref={daysSpanRef}
-						className={styles.resultDiv__days__number}>
-						--
-					</span>{" "}
-					days
-				</p>
 			</div>
-		</div>
+			<Attribution />
+		</>
 	);
 }
